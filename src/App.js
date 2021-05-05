@@ -1,28 +1,21 @@
-import logo from './logo.svg';
-import { Provider, connect } from 'react-redux';
+import { Provider} from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import './App.css';
-import { store } from './config/store';
-
-const CounterComponent = () => (
-  <header className="App-header">
-    <div>1</div>
-    <button>incrementar</button>
-    <button>decrementar</button>
-  </header>
-)
-
-const mapStateToProps = ({ counter }) => ({
-  counter, 
-})
-
-const ConnectedCounterComponent = connect()(CounterComponent)
+import { store, persistor } from './config/store';
+import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AppRouter from './components/Router';
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-        <CounterComponent></CounterComponent>
-      </div>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <div className="App">
+            <AppRouter />
+          </div>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 }
